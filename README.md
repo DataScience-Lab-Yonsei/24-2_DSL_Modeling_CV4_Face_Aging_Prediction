@@ -1,5 +1,9 @@
 # 24-2_DSL_Modeling_CV4_Face_Aging_Prediction
-# 실종 아동 현재 모습 예측 모델 구현
+# 👪 실종아동 현재 모습 예측 모델 구현 프로젝트
+
+---
+
+## 11기 김현진(팀장), 11기 윤정수, 12기 김건우, 12기 김민규
 
 # 💭 0. Intro
 
@@ -17,7 +21,8 @@
 
 ---
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/c764540c-463b-4516-8f71-907dad4b1fd5/image.png)
+![image](https://github.com/user-attachments/assets/90cf46d7-d108-4611-bbc2-1210e8a02bec)
+
 
 - **FADING(Face Aging via Diffusion-based Editing)** : diffusion 기반의 age transfer 모델
 - **GOAE(Geometry and Occlusion-Aware Encoding) :** GAN 기반의 3D rendering 모델
@@ -30,7 +35,8 @@
 
 ## 1). FADING
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/e1ad6342-d61f-4772-93f6-a1ad147b42d5/image.png)
+![image](https://github.com/user-attachments/assets/6c56dae4-1ba2-4971-b1df-b53bc874bde7)
+
 
 - Diffusion 기반의 age transfer 모델
 
@@ -46,13 +52,15 @@
 
 ### (1) FADING - Fine Tuning
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/1b8b5bca-1aec-4a09-98ae-4fdc2f1a101d/image.png)
+![image](https://github.com/user-attachments/assets/da257a1e-fd16-4f2e-a5b5-1e71ab1dc930)
+
 
 FADING의 경우 나잇대가 있는 인물의 사진은 연령대에 관계없이 결과물을 잘 출력하였으나, 어린 나이 인물의 이미지를 인풋으로 받는 경우 얼굴의 특징을 제대로 잡지 못해 아웃풋으로 서양인의 얼굴을 뱉는 경우가 있었습니다. 따라서 발표 자료를 통해 확인할 수 있듯이 RetinaFace를 활용한 이미지 데이터 전처리를 거쳐 동양인 얼굴에 맞게 FADING 모델 fine tuning을 시도하였습니다. 그러나 기존의 모델에 비해 성능이 현저히 떨어져 해당 repository상에서는 따로 자세히 언급하지 않겠습니다. 
 
 ### (2) FADING - Prompt Changing
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/433eecf5-7a0b-45ac-a1a1-09275f00526c/image.png)
+![image](https://github.com/user-attachments/assets/ec68fb31-1f28-44fb-b841-4000c103caa2)
+
 
 앞서 언급했던 기존 FADING의 문제점은 크게 
 
@@ -69,23 +77,28 @@ FADING의 경우 나잇대가 있는 인물의 사진은 연령대에 관계없�
 
 ### (3) FADING - Results
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/85630bda-5a8a-48ac-8a50-f6bef6f21453/image.png)
+![image](https://github.com/user-attachments/assets/f0acf37e-497e-4f4a-b09b-c20ea5a341c4)
+
 
 ## 2). GOAE
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/c95c09fd-a887-4911-b1bb-5192872a0d00/image.png)
+![image](https://github.com/user-attachments/assets/edf82efc-2a89-4f7a-8158-c0ee8feac485)
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/4078f6a6-6238-4dcb-bb49-afab64ed6e87/image.png)
+
+![image](https://github.com/user-attachments/assets/ad732bb1-0d10-4fd7-a35d-abf35eac3093)
+
 
 - GAN 기반의 3D rendering 모델
 
 해당 모델은 기존의 EG3D가 제공하는 3D 형상 정보를 활용하여 이미지의 디테일을 살린 inversion을 구현한 모델입니다. GOAE는 크게 
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/41023d9b-3df7-430e-b3db-67534677a5aa/image.png)
+![image](https://github.com/user-attachments/assets/99f27875-a1bb-4295-8c55-e082f3780f63)
+
 
 1. $W$ Space Inversion : Encoder를 통해 인풋 이미지를 잠재 공간 상에 매핑, 사전학습된 EG3D의 Generator를 활용하여 Tri-plane representation 값 반환. 이를 통해 이미지 재구성
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/091e1834-00ca-4244-8125-9c28ef46b9b9/image.png)
+![image](https://github.com/user-attachments/assets/ac6b6f95-091c-4490-a279-0c582fea4017)
+
 
 1. - 1) 인풋 이미지와 stage 1에서 얻은 reconstructed 이미지 간의 차이 계산, 
 
@@ -97,30 +110,34 @@ FADING의 경우 나잇대가 있는 인물의 사진은 연령대에 관계없�
 
 ### 1) GOAE - Data Preprocessing
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/e1f63de7-c412-41c7-975b-943b10af7d7f/image.png)
+![image](https://github.com/user-attachments/assets/f8ad4341-117e-429d-a03c-8802edc3183a)
+
 
 저희는 프로젝트에서 SPI official github의 데이터 전처리 함수를 활용해 GOAE에 필요한 input을 마련하였습니다.
 
 (각 이미지의 16개의 Extrinsic (위치) 변수 + 9개의 Intrinsic (스케일링) 변수) 
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/dd4c9e47-f08a-40ee-9ad6-649987f6f8ae/image.png)
+![image](https://github.com/user-attachments/assets/1405cf3a-2973-4054-9063-b1afefe4aad9)
+
 
 ### 2) GOAE - Results
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/3123f287-b5fc-485f-8b7d-5d2c1543dc7c/image.png)
+![image](https://github.com/user-attachments/assets/18aaed8e-aea3-4082-8292-f1363c5eded8)
 
-[KakaoTalk_20240924_023245163.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/fd591dfd-3fe7-4793-9275-5b9471762a8e/KakaoTalk_20240924_023245163.mp4)
+https://github.com/user-attachments/assets/52158ca1-978c-4420-98d1-5363e202044b
+
+
 
 # 🎆 3. Results
 
 ---
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/1e7b7128-a335-4c00-a388-00a8292c6a69/image.png)
+![image](https://github.com/user-attachments/assets/ebc7543b-4efd-43e3-bef0-3638111bd31a)
 
-![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/7d074994-0407-43f8-bd14-0b3553e1224b/image.png)
+![image](https://github.com/user-attachments/assets/268f85a0-3d78-487e-b55e-1ea9c48a2f43)
 
-[KakaoTalk_20240924_013439522.mp4](https://prod-files-secure.s3.us-west-2.amazonaws.com/8b114675-4688-456d-bc96-d12370522413/f1416e93-db28-424b-8fd7-89b459d1b360/KakaoTalk_20240924_013439522.mp4)
 
+https://github.com/user-attachments/assets/7099d587-9e98-40e8-bfe9-4af5e095b8f4
  
 
 실제 실종아동의 현재 모습을 추정한 영상입니다. 
